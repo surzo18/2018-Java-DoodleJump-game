@@ -3,6 +3,8 @@ package com.example.doodlejump;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
+import com.example.doodlejump.View.DoodleGameView;
+
 public class MainThread extends Thread {
     public static final int MAX_FPS = 30;
     private double avarageFPS;

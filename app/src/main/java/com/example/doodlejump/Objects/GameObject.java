@@ -1,4 +1,4 @@
-package com.example.doodlejump;
+package com.example.doodlejump.Objects;
 
 import android.graphics.Canvas;
 

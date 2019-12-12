@@ -1,15 +1,15 @@
-package com.example.doodlejump;
+package com.example.doodlejump.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageButton;
+
+import com.example.doodlejump.Activity.GameActivity;
+import com.example.doodlejump.R;
 
 
 public class MainActivity extends Activity {
