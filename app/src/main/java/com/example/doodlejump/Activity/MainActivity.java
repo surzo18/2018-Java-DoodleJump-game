@@ -1,6 +1,7 @@
 package com.example.doodlejump.Activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -15,12 +16,10 @@ import com.example.doodlejump.R;
 public class MainActivity extends Activity {
 
     MediaPlayer mediaPlayer;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-
         final ImageButton startButton = (ImageButton) findViewById(R.id.playButton);
 
         startButton.setOnTouchListener(new View.OnTouchListener() {
@@ -51,4 +50,5 @@ public class MainActivity extends Activity {
         Intent game = new Intent(this, GameActivity.class);
         startActivity(game);
     }
+
 }
