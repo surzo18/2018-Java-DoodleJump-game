@@ -1,19 +1,19 @@
-package com.example.doodlejump;
+package com.example.doodlejump.GameComponents;
 
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
-import com.example.doodlejump.View.DoodleGameView;
+import com.example.doodlejump.View.Game;
 
 public class MainThread extends Thread {
     public static final int MAX_FPS = 30;
     private double avarageFPS;
     private SurfaceHolder surfaceHolder;
-    private DoodleGameView doodleGameView;
+    private Game doodleGameView;
     private boolean running;
     private static Canvas canvas;
 
-    public MainThread(SurfaceHolder surfaceHolder,DoodleGameView doodleGameView){
+    public MainThread(SurfaceHolder surfaceHolder, Game doodleGameView){
         super();
         this.surfaceHolder = surfaceHolder;
         this.doodleGameView = doodleGameView;

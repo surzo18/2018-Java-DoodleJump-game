@@ -1,8 +1,10 @@
-package com.example.doodlejump;
+package com.example.doodlejump.GameComponents;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
+import com.example.doodlejump.R;
 
 public class Assets {
 
