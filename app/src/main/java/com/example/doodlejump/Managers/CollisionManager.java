@@ -46,11 +46,8 @@ public class CollisionManager {
                 jumperBox1.right <= jumperBox2.right
                 )
         ){
-            Log.d("kolize","In CollisionManager");
             return true;
         }
-        Log.d("JumperBox1", String.valueOf(jumperBox1));
-        Log.d("JumperBox2", String.valueOf(jumperBox2));
         return false;
     };
 }

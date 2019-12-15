@@ -38,6 +38,8 @@ public class JumperManager implements GameObject {
         for (int i = 0; i < jumpers.size(); i++) {
             jumpers.get(i).update();
         }
+
+        this.destroyBlocks();
     }
 
     public void addJumper(Jumper jumper) {
@@ -106,4 +108,14 @@ public class JumperManager implements GameObject {
         Random r = new Random();
         return r.nextInt((max - min) + 1) + min;
     }
+
+    private void destroyBlocks(){
+        for(int i = 0; i < jumpers.size(); i++){
+            if(jumpers.get(i).getJumperPosition().y > Constants.SCREEN_HEIGHT + 50){
+                jumpers.remove(i);
+                //Log.d("Destroy size is:", String.valueOf(jumpers.size()));
+            }
+        }
+    }
+
 }
