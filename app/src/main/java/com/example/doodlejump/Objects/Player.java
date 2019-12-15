@@ -12,128 +12,88 @@ import android.util.Log;
 import com.example.doodlejump.GameComponents.Constants;
 import com.example.doodlejump.R;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
-
 public class Player implements GameObject {
 
-    //PlayerImg
-    private Bitmap currentImage;
-    private Bitmap playerImgLeft;
-    private Bitmap playerImgRight;
-    private Bitmap playerImgTop;
-    private Bitmap playerImgNoose;
+    //Images
+    private final Bitmap doodleLeft     = BitmapFactory.decodeResource(
+            Constants.context.getResources(),R.drawable.left_doodle
+    );
+    private final Bitmap doodleRight    = BitmapFactory.decodeResource(
+            Constants.context.getResources(),R.drawable.right_doodle
+    );
+    private final Bitmap doodleUp       = BitmapFactory.decodeResource(
+            Constants.context.getResources(),R.drawable.up_doodle
+    );
+    private final Bitmap doodleNose     = BitmapFactory.decodeResource(
+            Constants.context.getResources(),R.drawable.nose_doodle
+    );
+    private Bitmap currentImg;
 
-    //PlayerPhysic
-    private Point position; //Center of image
-    private Rect playerColliderBox = new Rect();
+    //ColiderBox
+    private Rect playerColliderBox;
+    private Point playerPosition;
+    private int doodleImgWidth;
+    private int doodleImgHeight;
 
-    boolean isJumping = false;
-    boolean dead = false;
-    private int speed = 35;
-    private int miliseconds = 0;
-    private int jumpHeight = 700;
-    private int jumpProgress = 0;
+    //Physic
+    private int playerSpeed = 25;
 
-    private int playerMaxInt = 0;
-    /*
-    private float miliseconds = 0;
-    private int speed = 35;
-    int jumpHeight = 200;
-    int lastJump = 50;
-    */
+    //States
+    private  boolean isJumping  = false;
+    private  boolean isDead     = false;
 
     public Player(Point position){
+        this.currentImg        = doodleLeft;
+        this.doodleImgWidth    = currentImg.getWidth();
+        this.doodleImgHeight   = currentImg.getHeight();
 
-        this.position = position;
-
-        //Init resources
-        this.playerImgLeft  = BitmapFactory.decodeResource(Constants.context.getResources(),R.drawable.left_doodle);
-        this.playerImgRight = BitmapFactory.decodeResource(Constants.context.getResources(),R.drawable.right_doodle);
-        this.playerImgTop   = BitmapFactory.decodeResource(Constants.context.getResources(),R.drawable.up_doodle);
-        this.playerImgNoose = BitmapFactory.decodeResource(Constants.context.getResources(),R.drawable.nose_doodle);
-        this.currentImage   = playerImgLeft;
-
-        //TIMER
-        new Timer().scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                miliseconds += 1;
-            }
-        }, 0, 1);
+        this.playerPosition = position;
+        this.setColliderBox(playerPosition);
     }
 
-    public void moveLeft(){
-        this.currentImage = playerImgLeft;
-        this.position.x -= speed;
+    public void moveLeft(int speed){
+        this.currentImg = doodleLeft;
     }
 
-    public void moveRight(){
-        this.currentImage = playerImgRight;
-        this.position.x += speed;
+    public void moveRight(int speed){
+        this.currentImg = doodleRight;
     }
-
 
     @Override
     public void draw(Canvas canvas) {
-        //canvas.drawBitmap(currentImage,null,playerColliderBox,new Paint(Color.RED));
-        canvas.drawRect(playerColliderBox,new Paint(Color.RED));
-        canvas.drawRect(playerColliderBox,new Paint(Color.BLUE));
+        //Paint myPaint = new Paint();
+        //myPaint.setColor(Color.BLUE);
+        //canvas.drawRect(playerColliderBox,myPaint);
+        canvas.drawBitmap(currentImg,null,playerColliderBox,null);
     }
 
     @Override
     public void update() {
-        if(position.x >Constants.SCREEN_WIDTH){
-            position.x = 0;
-        }
-        if(position.x < 0){
-            position.x = Constants.SCREEN_WIDTH;
-        }
 
-        if(isJumping){
-            Log.d("JumppROGRESS", String.valueOf(jumpProgress));
-            float second = miliseconds /1000;
-            jumpProgress += speed + (9.81 * (second * second))/2;
-
-            if(jumpProgress > jumpHeight){
-                isJumping = false;
-                miliseconds  = 0;
-                jumpProgress = 0;
-                return;
-            }
-            position.y -= speed + (9.81 * (second * second))/2;
-            playerColliderBox.set(position.x - currentImage.getWidth()/2 - 60, position.y - currentImage.getHeight()/2, position.x + currentImage.getWidth()/2 - 60, position.y + currentImage.getHeight()/2);
+        if(this.isJumping){
+            this.playerPosition.y -= playerSpeed;
         }
         else{
-            float second = miliseconds /1000;
-            position.y += speed + (9.81 * (second * second))/2;
-            playerColliderBox.set(position.x - currentImage.getWidth()/2 - 60, position.y - currentImage.getHeight()/2, position.x + currentImage.getWidth()/2 - 60, position.y + currentImage.getHeight()/2);
+            this.playerPosition.y += playerSpeed;
         }
+        this.setColliderBox(playerPosition);
+
     }
 
-
-    public boolean checkIfDead(){
-        return Constants.SCREEN_HEIGHT  + currentImage.getHeight() < position.y;
+    private void setColliderBox(Point position){
+        this.playerColliderBox = new Rect(
+                position.x - doodleImgWidth/2,
+                position.y - doodleImgHeight/2,
+                position.x + doodleImgWidth/2,
+                position.y + doodleImgHeight/2
+        );
     }
 
-    public boolean isDead(){
-        return dead;
-    }
-
-    public Rect getPlayerColliderBox() {
-        return playerColliderBox;
-    }
-
-    public void setJumping(boolean jumping){
-        this.isJumping = jumping;
-    }
-
-    public boolean isJumping(){
-        return isJumping;
-    }
-
-    public int getJumpHeight(){
-        return this.position.y;
+    public boolean checkIfIsDead(){
+        int maxDeadPosition =  Constants.SCREEN_HEIGHT + doodleImgHeight;
+        if(this.playerPosition.y > maxDeadPosition ){
+            return true;
+        }
+        return false;
     }
 }
