@@ -13,6 +13,7 @@ import android.view.SurfaceView;
 
 import com.example.doodlejump.GameComponents.Constants;
 import com.example.doodlejump.GameComponents.MainThread;
+import com.example.doodlejump.Managers.CollisionManager;
 import com.example.doodlejump.Managers.JumperManager;
 import com.example.doodlejump.Objects.Jumper;
 import com.example.doodlejump.Objects.Player;
@@ -31,6 +32,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     //GameObjects
     private Player player;
     private JumperManager jumperManager;
+    private CollisionManager collisionManager;
 
     public Game(Context context) {
         super(context);
@@ -49,6 +51,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
         this.player = new Player(middleOfScreen);
         this.jumperManager = new JumperManager();
+        this.collisionManager = new CollisionManager();
 
         //INIT START BOTTOM PLATFORM
         int jumperInitNumber = Constants.SCREEN_WIDTH / 160;
@@ -68,7 +71,22 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void update(){
+        //UpdatePlayer
+
         player.update();
+
+        //todo: update all platforms HERE ADRIAN!
+
+        //CheckCollision
+        if(!player.isPlayerJumping()){
+            Log.d("TSize:", String.valueOf( jumperManager.getSize()));
+            for(int i = 0;i < jumperManager.getSize();i++){
+                Log.d("Tu som", String.valueOf(i));
+                if(collisionManager.isCollidePlayerJumer(player,jumperManager.getJumper(i))){
+                    player.setJumping(true);
+                }
+            }
+        }
 
         if(player.checkIfIsDead()){
             this.restartGame();
@@ -77,11 +95,13 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
     public void draw(Canvas canvas){
         super.draw(canvas);
-        
+
         this.drawBackground(canvas);
 
         player.draw(canvas);
+
         jumperManager.draw(canvas);
+
     }
 
 

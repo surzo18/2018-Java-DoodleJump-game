@@ -3,11 +3,8 @@ package com.example.doodlejump.Objects;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.util.Log;
 
 import com.example.doodlejump.GameComponents.Constants;
 import com.example.doodlejump.R;
@@ -36,7 +33,9 @@ public class Player implements GameObject {
     private int doodleImgHeight;
 
     //Physic
-    private int playerSpeed = 25;
+    private int playerSpeed  = 25;
+    private int jumpHeight   = playerSpeed* 20;
+    private int jumpProgress = 0;
 
     //States
     private  boolean isJumping  = false;
@@ -69,15 +68,19 @@ public class Player implements GameObject {
 
     @Override
     public void update() {
+        if(this.jumpProgress >= jumpHeight){
+            this.isJumping = false;
+            this.jumpProgress = 0;
+        }
 
         if(this.isJumping){
             this.playerPosition.y -= playerSpeed;
+            jumpProgress += this.playerSpeed;
         }
         else{
             this.playerPosition.y += playerSpeed;
         }
         this.setColliderBox(playerPosition);
-
     }
 
     private void setColliderBox(Point position){
@@ -89,11 +92,23 @@ public class Player implements GameObject {
         );
     }
 
+    public Rect getPlayerColliderBox(){
+        return this.playerColliderBox;
+    }
+
     public boolean checkIfIsDead(){
         int maxDeadPosition =  Constants.SCREEN_HEIGHT + doodleImgHeight;
         if(this.playerPosition.y > maxDeadPosition ){
             return true;
         }
         return false;
+    }
+
+    public boolean isPlayerJumping(){
+        return this.isJumping;
+    }
+
+    public void setJumping(boolean jumping) {
+        this.isJumping = jumping;
     }
 }

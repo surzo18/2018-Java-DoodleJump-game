@@ -56,12 +56,15 @@ public class Jumper implements GameObject {
     }
 
     private void setJumperColliderBox(Point jumperPosition) {
-        Log.d("Position", String.valueOf(jumperPosition));
         this.jumperColliderBox = new Rect(
           jumperPosition.x - jumperImgWidth/2,
           jumperPosition.y - jumperImgHeight/2,
           jumperPosition.x + jumperImgWidth/2,
           jumperPosition.y + jumperImgHeight/2
         );
+    }
+
+    public Rect getJumperColliderBox(){
+        return this.jumperColliderBox;
     }
 }

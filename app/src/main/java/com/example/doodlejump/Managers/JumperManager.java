@@ -33,4 +33,12 @@ public class JumperManager implements GameObject {
     public void addJumper(Jumper jumper){
         this.jumpers.add(jumper);
     }
+
+    public Jumper getJumper(int i){
+        return jumpers.get(i);
+    }
+
+    public int getSize(){
+        return this.jumpers.size();
+    }
 }
