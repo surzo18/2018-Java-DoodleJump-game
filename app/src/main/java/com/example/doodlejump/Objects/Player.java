@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.util.Log;
 
 import com.example.doodlejump.GameComponents.Constants;
 import com.example.doodlejump.R;
@@ -50,12 +51,14 @@ public class Player implements GameObject {
         this.setColliderBox(playerPosition);
     }
 
-    public void moveLeft(int speed){
+    public void moveLeft(){
         this.currentImg = doodleLeft;
+        this.playerPosition.x -= playerSpeed;
     }
 
-    public void moveRight(int speed){
+    public void moveRight(){
         this.currentImg = doodleRight;
+        this.playerPosition.x += playerSpeed;
     }
 
     @Override
@@ -68,9 +71,19 @@ public class Player implements GameObject {
 
     @Override
     public void update() {
+        //Check if player not reach maxPointOfJump
         if(this.jumpProgress >= jumpHeight){
             this.isJumping = false;
             this.jumpProgress = 0;
+        }
+
+        if(playerPosition.x <= 0){
+            Log.d("mensie","0");
+            playerPosition.x = Constants.SCREEN_WIDTH;
+        }
+        else if(playerPosition.x >= Constants.SCREEN_WIDTH){
+            Log.d("vecsie","1");
+            playerPosition.x = 0;
         }
 
         if(this.isJumping){
@@ -110,5 +123,13 @@ public class Player implements GameObject {
 
     public void setJumping(boolean jumping) {
         this.isJumping = jumping;
+    }
+
+    public int getY(){
+        return  this.playerPosition.y;
+    }
+
+    public void minusY(int diff) {
+        this.playerPosition.y += diff;
     }
 }

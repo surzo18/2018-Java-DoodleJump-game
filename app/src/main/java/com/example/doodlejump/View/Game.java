@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.Log;
@@ -59,6 +61,16 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         for(int i = 0; i < jumperInitNumber; i++){
             this.jumperManager.addJumper( new Jumper(new Point(i*160 + leftSpace, Constants.SCREEN_HEIGHT - 300)));
         }
+
+        this.jumperManager.addJumper( new Jumper(new Point(middleOfScreen.x - 400, Constants.SCREEN_HEIGHT - 700)));
+        this.jumperManager.addJumper( new Jumper(new Point(middleOfScreen.x, Constants.SCREEN_HEIGHT - 1000)));
+        this.jumperManager.addJumper( new Jumper(new Point(middleOfScreen.x - 400, Constants.SCREEN_HEIGHT - 1300)));
+        this.jumperManager.addJumper( new Jumper(new Point(middleOfScreen.x + 300, Constants.SCREEN_HEIGHT - 1700)));
+
+        //Okrajove Jumpery na ukazku
+        //this.jumperManager.addJumper( new Jumper(new Point(80, 20)));
+        //this.jumperManager.addJumper( new Jumper(new Point(Constants.SCREEN_WIDTH - 80, 20)));
+
     }
 
     private void restartGame(){
@@ -67,6 +79,17 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
     //WhenDidAction
     public boolean onTouchEvent(MotionEvent event){
+        float x = event.getX();
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_MOVE:
+                if (Constants.SCREEN_WIDTH/2 >= x)
+                { player.moveLeft(); }
+                else
+                { player.moveRight(); }
+                break;
+        }
         return true;
     }
 
@@ -75,13 +98,18 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
         player.update();
 
-        //todo: update all platforms HERE ADRIAN!
+        if(player.getY() < Constants.SCREEN_HEIGHT/2){
+            int diff =  Constants.SCREEN_HEIGHT/2 - player.getY();
+            Log.d("DIFF:", String.valueOf(diff));
+               jumperManager.updatePlatformsY(diff);
+               player.minusY(diff);
+        }
+
+        jumperManager.update();
 
         //CheckCollision
         if(!player.isPlayerJumping()){
-            Log.d("TSize:", String.valueOf( jumperManager.getSize()));
             for(int i = 0;i < jumperManager.getSize();i++){
-                Log.d("Tu som", String.valueOf(i));
                 if(collisionManager.isCollidePlayerJumer(player,jumperManager.getJumper(i))){
                     player.setJumping(true);
                 }
@@ -98,9 +126,13 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
         this.drawBackground(canvas);
 
-        player.draw(canvas);
+        //Draw Center pool
+        Paint paint = new Paint();
+        paint.setColor(Color.BLUE);
+        canvas.drawRect(new Rect(0,Constants.SCREEN_HEIGHT/2, Constants.SCREEN_WIDTH,Constants.SCREEN_HEIGHT/2 + 2),paint);
 
         jumperManager.draw(canvas);
+        player.draw(canvas);
 
     }
 

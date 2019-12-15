@@ -52,7 +52,7 @@ public class Jumper implements GameObject {
 
     @Override
     public void update() {
-
+        this.setJumperColliderBox(jumperPosition);
     }
 
     private void setJumperColliderBox(Point jumperPosition) {
@@ -66,5 +66,13 @@ public class Jumper implements GameObject {
 
     public Rect getJumperColliderBox(){
         return this.jumperColliderBox;
+    }
+
+    public void minusY(int diff) {
+        this.jumperPosition.y += diff;
+    }
+
+    public Point getJumperPosition(){
+        return this.jumperPosition;
     }
 }
