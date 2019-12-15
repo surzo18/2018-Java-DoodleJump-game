@@ -36,6 +36,8 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     private JumperManager jumperManager;
     private CollisionManager collisionManager;
 
+    private int score;
+
     public Game(Context context) {
         super(context);
         getHolder().addCallback(this);
@@ -50,6 +52,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     //InitGame, create players, rows
     private void initGame(){
         this.middleOfScreen = new Point(Constants.SCREEN_WIDTH/2, Constants.SCREEN_HEIGHT/2);
+        this.score = 0;
 
         this.player = new Player(middleOfScreen);
         this.jumperManager = new JumperManager();
@@ -102,6 +105,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
             int diff =  Constants.SCREEN_HEIGHT/2 - player.getY();
                jumperManager.updatePlatformsY(diff);
                player.minusY(diff);
+               score += diff;
         }
 
         jumperManager.update();
@@ -132,6 +136,9 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
         jumperManager.draw(canvas);
         player.draw(canvas);
+
+        paint.setTextSize(64);
+        canvas.drawText("Score: " + String.valueOf(score), 0, 60, paint);
 
     }
 

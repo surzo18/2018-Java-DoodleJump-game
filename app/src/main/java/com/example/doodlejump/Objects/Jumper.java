@@ -3,11 +3,8 @@ package com.example.doodlejump.Objects;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.util.Log;
 
 import com.example.doodlejump.GameComponents.Constants;
 import com.example.doodlejump.R;
@@ -30,7 +27,6 @@ public class Jumper implements GameObject {
     private Point jumperPosition;
     private int jumperImgWidth;
     private int jumperImgHeight;
-
 
     public Jumper(Point position){
         this.jumperImgWidth  = jumper.getWidth();
