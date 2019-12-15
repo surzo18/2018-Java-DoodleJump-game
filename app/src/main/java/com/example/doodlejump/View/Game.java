@@ -100,7 +100,6 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
         if(player.getY() < Constants.SCREEN_HEIGHT/2){
             int diff =  Constants.SCREEN_HEIGHT/2 - player.getY();
-            Log.d("DIFF:", String.valueOf(diff));
                jumperManager.updatePlatformsY(diff);
                player.minusY(diff);
         }

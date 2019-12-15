@@ -81,7 +81,7 @@ public class Player implements GameObject {
             Log.d("mensie","0");
             playerPosition.x = Constants.SCREEN_WIDTH;
         }
-        else if(playerPosition.x >= Constants.SCREEN_WIDTH){
+        else if(playerPosition.x > Constants.SCREEN_WIDTH){
             Log.d("vecsie","1");
             playerPosition.x = 0;
         }
