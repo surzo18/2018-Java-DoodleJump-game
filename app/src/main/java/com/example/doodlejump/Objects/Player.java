@@ -3,6 +3,8 @@ package com.example.doodlejump.Objects;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.Log;
@@ -75,7 +77,9 @@ public class Player implements GameObject {
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawBitmap(currentImage,null,playerColliderBox,null);
+        //canvas.drawBitmap(currentImage,null,playerColliderBox,new Paint(Color.RED));
+        canvas.drawRect(playerColliderBox,new Paint(Color.RED));
+        canvas.drawRect(playerColliderBox,new Paint(Color.BLUE));
     }
 
     @Override
@@ -88,7 +92,7 @@ public class Player implements GameObject {
         }
 
         if(isJumping){
-
+            Log.d("JumppROGRESS", String.valueOf(jumpProgress));
             float second = miliseconds /1000;
             jumpProgress += speed + (9.81 * (second * second))/2;
 
@@ -96,14 +100,15 @@ public class Player implements GameObject {
                 isJumping = false;
                 miliseconds  = 0;
                 jumpProgress = 0;
+                return;
             }
             position.y -= speed + (9.81 * (second * second))/2;
-            playerColliderBox.set(position.x - currentImage.getWidth()/2, position.y - currentImage.getHeight()/2, position.x + currentImage.getWidth()/2, position.y + currentImage.getHeight()/2);
+            playerColliderBox.set(position.x - currentImage.getWidth()/2 - 60, position.y - currentImage.getHeight()/2, position.x + currentImage.getWidth()/2 - 60, position.y + currentImage.getHeight()/2);
         }
         else{
             float second = miliseconds /1000;
             position.y += speed + (9.81 * (second * second))/2;
-            playerColliderBox.set(position.x - currentImage.getWidth()/2, position.y - currentImage.getHeight()/2, position.x + currentImage.getWidth()/2, position.y + currentImage.getHeight()/2);
+            playerColliderBox.set(position.x - currentImage.getWidth()/2 - 60, position.y - currentImage.getHeight()/2, position.x + currentImage.getWidth()/2 - 60, position.y + currentImage.getHeight()/2);
         }
     }
 

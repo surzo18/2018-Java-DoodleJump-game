@@ -8,7 +8,6 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.media.MediaPlayer;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -32,10 +31,10 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     private Bitmap background;
 
     private Player player;
-    private EnemiesManager enemies;
-    private JumpRowsManager jumpRows;
     private CollisionManager collisionManager;
     private Controler controler;
+    private JumpRowsManager jumpRows;
+    //private EnemiesManager enemies;
 
     private boolean endGame = false;
     private int lastUpdatePlatformY;
@@ -61,6 +60,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         collisionManager = new CollisionManager();
         controler = new Controler(player);
         jumpRows = new JumpRowsManager();
+
         jumpRows.createObstacle(230,Constants.SCREEN_HEIGHT - 60);
         jumpRows.createObstacle(390,Constants.SCREEN_HEIGHT - 60);
         jumpRows.createObstacle(550,Constants.SCREEN_HEIGHT - 60);
@@ -99,7 +99,6 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         }
 
         if(player.getJumpHeight() < Constants.SCREEN_HEIGHT / 2 && player.isJumping()){
-
             jumpRows.movePlatform(Constants.SCREEN_HEIGHT / 2 - player.getJumpHeight() - this.lastUpdatePlatformY );
             this.lastUpdatePlatformY = Constants.SCREEN_HEIGHT / 2 - player.getJumpHeight();
         }

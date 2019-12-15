@@ -22,6 +22,7 @@ public class CollisionManager {
                        (playerBox.right <= jumpRowBox.right && playerBox.right >= jumpRowBox.left)
                 ) &&
                 player.isJumping() == false ){
+            Log.d("Padam, sakcem","ahoj");
             return true;
         }
         return false;
