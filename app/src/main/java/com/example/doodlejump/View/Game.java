@@ -13,6 +13,8 @@ import android.view.SurfaceView;
 
 import com.example.doodlejump.GameComponents.Constants;
 import com.example.doodlejump.GameComponents.MainThread;
+import com.example.doodlejump.Managers.JumperManager;
+import com.example.doodlejump.Objects.Jumper;
 import com.example.doodlejump.Objects.Player;
 import com.example.doodlejump.R;
 
@@ -28,6 +30,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
     //GameObjects
     private Player player;
+    private JumperManager jumperManager;
 
     public Game(Context context) {
         super(context);
@@ -43,7 +46,16 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     //InitGame, create players, rows
     private void initGame(){
         this.middleOfScreen = new Point(Constants.SCREEN_WIDTH/2, Constants.SCREEN_HEIGHT/2);
+
         this.player = new Player(middleOfScreen);
+        this.jumperManager = new JumperManager();
+
+        //INIT START BOTTOM PLATFORM
+        int jumperInitNumber = Constants.SCREEN_WIDTH / 160;
+        int leftSpace        = Constants.SCREEN_WIDTH % 160;
+        for(int i = 0; i < jumperInitNumber; i++){
+            this.jumperManager.addJumper( new Jumper(new Point(i*160 + leftSpace, Constants.SCREEN_HEIGHT - 300)));
+        }
     }
 
     private void restartGame(){
@@ -67,7 +79,9 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(canvas);
         
         this.drawBackground(canvas);
+
         player.draw(canvas);
+        jumperManager.draw(canvas);
     }
 
 
