@@ -9,7 +9,6 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.media.MediaPlayer;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -19,6 +18,7 @@ import com.example.doodlejump.GameComponents.Database;
 import com.example.doodlejump.GameComponents.MainThread;
 import com.example.doodlejump.Managers.CollisionManager;
 import com.example.doodlejump.Managers.JumperManager;
+import com.example.doodlejump.Objects.Enemy;
 import com.example.doodlejump.Objects.Jumper;
 import com.example.doodlejump.Objects.Player;
 import com.example.doodlejump.R;
@@ -38,6 +38,7 @@ private  MediaPlayer deadMusic;
     private Player player;
     private JumperManager jumperManager;
     private CollisionManager collisionManager;
+    private Enemy enemy;
 
     private boolean isMute = false;
 
@@ -71,6 +72,7 @@ private  MediaPlayer deadMusic;
         this.player = new Player(middleOfScreen);
         this.jumperManager = new JumperManager();
         this.collisionManager = new CollisionManager();
+        this.enemy = new Enemy(new Point(400,400));
 
         //INIT START BOTTOM PLATFORM
         int jumperInitNumber = Constants.SCREEN_WIDTH / 160;
@@ -116,6 +118,8 @@ private  MediaPlayer deadMusic;
 
     public void update(){
         //UpdatePlayer
+
+        enemy.update();
 
         player.update();
 
@@ -164,6 +168,7 @@ private  MediaPlayer deadMusic;
         paint.setTextSize(64);
         canvas.drawText("Score: " + String.valueOf(score), 0, 60, paint);
 
+        enemy.draw(canvas);
     }
 
 
