@@ -2,7 +2,7 @@
 
 Custom game on Doodle Jump style. It was one of the first game on android devices. I used assets which I found on the Internet. This is school project and is used for educational purposes only.
 
-![ApplicationPreview](preview.png)
+![ApplicationPreview](preview1.png)
 ![ApplicationPreview](preview2.png)
 
 ## Getting Started
