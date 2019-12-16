@@ -25,7 +25,7 @@ public class MenuActivity extends Activity {
         Constants.mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.menu_music);
 
 
-        Constants.mediaPlayer.isLooping();
+        Constants.mediaPlayer.setLooping(true);
         Constants.mediaPlayer.start();
 
     }
@@ -40,6 +40,11 @@ public class MenuActivity extends Activity {
     public void goToHighScore(View view){
         Intent hs = new Intent(Constants.context, HighScoreActivity.class);
         startActivity(hs);
+    }
+
+    public void goToSettings(View view){
+        Intent s = new Intent(Constants.context, SettingsActivity.class);
+        startActivity(s);
     }
 
     @SuppressLint("ClickableViewAccessibility")

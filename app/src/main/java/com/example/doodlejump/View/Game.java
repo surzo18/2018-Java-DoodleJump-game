@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.media.MediaPlayer;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -24,7 +25,7 @@ import com.example.doodlejump.R;
 
 
 public class Game extends SurfaceView implements SurfaceHolder.Callback {
-
+private  MediaPlayer deadMusic;
     private MainThread thread;
     private Bitmap background;
     private Database database;
@@ -48,6 +49,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
         database = new Database(context);
 
+        this.deadMusic = MediaPlayer.create(Constants.context, R.raw.loose);
 
         setFocusable(true);
         initGame();
@@ -55,6 +57,11 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
     //InitGame, create players, rows
     private void initGame(){
+        Constants.mediaPlayer.stop();
+        Constants.mediaPlayer.release();
+        Constants.mediaPlayer = MediaPlayer.create(Constants.context, R.raw.jump);
+        Constants.mediaPlayer.setLooping(false);
+
         this.middleOfScreen = new Point(Constants.SCREEN_WIDTH/2, Constants.SCREEN_HEIGHT/2);
         this.score = 0;
 
@@ -81,7 +88,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private void restartGame(){
-        this.database.addScore(String.valueOf(score));
+        this.database.addScore(score);
         this.initGame();
         //this.thread.setRunning(false);
         //Intent menu = new Intent(Constants.context, MenuActivity.class);
@@ -122,13 +129,15 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         if(!player.isPlayerJumping()){
             for(int i = 0;i < jumperManager.getSize();i++){
                 if(collisionManager.isCollidePlayerJumer(player,jumperManager.getJumper(i))){
-                    Constants.mediaPlayer =
+                    Constants.mediaPlayer.start();
                     player.setJumping(true);
                 }
             }
         }
 
         if(player.checkIfIsDead()){
+
+            this.deadMusic.start();
             this.restartGame();
         }
     }
@@ -141,7 +150,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         //Draw Center pool
         Paint paint = new Paint();
         paint.setColor(Color.BLUE);
-        canvas.drawRect(new Rect(0,Constants.SCREEN_HEIGHT/2, Constants.SCREEN_WIDTH,Constants.SCREEN_HEIGHT/2 + 2),paint);
+        //canvas.drawRect(new Rect(0,Constants.SCREEN_HEIGHT/2, Constants.SCREEN_WIDTH,Constants.SCREEN_HEIGHT/2 + 2),paint);
 
         jumperManager.draw(canvas);
         player.draw(canvas);

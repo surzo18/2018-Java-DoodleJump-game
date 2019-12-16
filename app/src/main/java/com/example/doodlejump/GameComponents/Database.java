@@ -20,7 +20,7 @@ public class Database extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " +  TABLE_NAME + "(NAME INTEGER PRIMARY KEY,SCORE)");
+        db.execSQL("CREATE TABLE " +  TABLE_NAME + "(NAME INTEGER PRIMARY KEY,SCORE INTEGER)");
     }
 
     @Override
@@ -29,7 +29,7 @@ public class Database extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean addScore(String score){
+    public boolean addScore(Integer score){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_2, score);
@@ -43,7 +43,7 @@ public class Database extends SQLiteOpenHelper {
 
     public Cursor getListContests(){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor data = db.query(TABLE_NAME, null, COL_2, null, null, null, COL_2 +" DESC");
+        Cursor data = db.query(TABLE_NAME, null, null, null, null, null, COL_2 +" DESC", "5");
         return data;
     }
 

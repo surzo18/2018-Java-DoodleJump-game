@@ -21,6 +21,7 @@
         <activity android:name=".Activity.GameActivity"></activity>
 
         <activity android:name=".Activity.HighScoreActivity"></activity>
+        <activity android:name=".Activity.SettingsActivity"></activity>
 
         <activity android:name=".Activity.MenuActivity"></activity>
 
