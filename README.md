@@ -23,8 +23,8 @@ Just copy project repo to your directory and import it to android studio.
 
 ## Built With
 
-* [AndroidStudio](https://developer.android.com/studio/) - The web framework used
-* [JDK 8.0](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) - Dependency Management
+* [AndroidStudio](https://developer.android.com/studio/) - IDE for android development.
+* [JDK 8.0](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) - Java SE development kit.
 
 ## Authors
 
