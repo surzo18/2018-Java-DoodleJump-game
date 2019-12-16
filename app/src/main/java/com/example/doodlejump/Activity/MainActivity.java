@@ -11,7 +11,6 @@ import com.example.doodlejump.R;
 
 
 public class MainActivity extends Activity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +22,7 @@ public class MainActivity extends Activity {
         Constants.SCREEN_HEIGHT = dm.heightPixels;
         Constants.context = getApplicationContext();
         Constants.mediaPlayer = new MediaPlayer();
-
+        Constants.options = getSharedPreferences("save", 0);
 
         Intent game = new Intent(this, MenuActivity.class);
         finish();

@@ -21,12 +21,13 @@ public class MenuActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.main_activity);
-
         Constants.mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.menu_music);
 
-
-        Constants.mediaPlayer.setLooping(true);
-        Constants.mediaPlayer.start();
+        boolean isSound = Constants.options.getBoolean("sound",true);
+        if(isSound == true){
+            Constants.mediaPlayer.setLooping(true);
+            Constants.mediaPlayer.start();
+        }
 
     }
 

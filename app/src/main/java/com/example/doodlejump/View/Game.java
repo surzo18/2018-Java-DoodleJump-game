@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.media.MediaPlayer;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -38,6 +39,8 @@ private  MediaPlayer deadMusic;
     private JumperManager jumperManager;
     private CollisionManager collisionManager;
 
+    private boolean isMute = false;
+
     private int score;
 
     public Game(Context context) {
@@ -50,7 +53,7 @@ private  MediaPlayer deadMusic;
         database = new Database(context);
 
         this.deadMusic = MediaPlayer.create(Constants.context, R.raw.loose);
-
+        this.isMute = !Constants.options.getBoolean("sound",true);
         setFocusable(true);
         initGame();
     }
@@ -129,15 +132,18 @@ private  MediaPlayer deadMusic;
         if(!player.isPlayerJumping()){
             for(int i = 0;i < jumperManager.getSize();i++){
                 if(collisionManager.isCollidePlayerJumer(player,jumperManager.getJumper(i))){
-                    Constants.mediaPlayer.start();
+                    if(!isMute){
+                        Constants.mediaPlayer.start();
+                    }
                     player.setJumping(true);
                 }
             }
         }
 
         if(player.checkIfIsDead()){
-
-            this.deadMusic.start();
+            if(!isMute){
+                this.deadMusic.start();
+            }
             this.restartGame();
         }
     }
