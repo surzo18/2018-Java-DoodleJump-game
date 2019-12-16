@@ -1,8 +1,6 @@
 package com.example.doodlejump.View;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -10,15 +8,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.example.doodlejump.Activity.MenuActivity;
 import com.example.doodlejump.GameComponents.Constants;
+import com.example.doodlejump.GameComponents.Database;
 import com.example.doodlejump.GameComponents.MainThread;
 import com.example.doodlejump.Managers.CollisionManager;
 import com.example.doodlejump.Managers.JumperManager;
@@ -32,6 +27,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
     private MainThread thread;
     private Bitmap background;
+    private Database database;
 
     //Points
     private Point middleOfScreen;
@@ -49,6 +45,8 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
         thread = new MainThread(getHolder(),this);
         background = BitmapFactory.decodeResource(getResources(),R.drawable.game_background);
+
+        database = new Database(context);
 
 
         setFocusable(true);
@@ -83,6 +81,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private void restartGame(){
+        this.database.addScore(String.valueOf(score));
         this.initGame();
         //this.thread.setRunning(false);
         //Intent menu = new Intent(Constants.context, MenuActivity.class);
@@ -123,6 +122,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         if(!player.isPlayerJumping()){
             for(int i = 0;i < jumperManager.getSize();i++){
                 if(collisionManager.isCollidePlayerJumer(player,jumperManager.getJumper(i))){
+                    Constants.mediaPlayer =
                     player.setJumping(true);
                 }
             }

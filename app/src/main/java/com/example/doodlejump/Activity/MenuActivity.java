@@ -3,6 +3,7 @@ package com.example.doodlejump.Activity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -21,7 +22,12 @@ public class MenuActivity extends Activity {
 
         setContentView(R.layout.main_activity);
 
-        //initButtons();
+        Constants.mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.menu_music);
+
+
+        Constants.mediaPlayer.isLooping();
+        Constants.mediaPlayer.start();
+
     }
 
     public void playGame(View view){
@@ -31,6 +37,10 @@ public class MenuActivity extends Activity {
         startActivity(game);
     }
 
+    public void goToHighScore(View view){
+        Intent hs = new Intent(Constants.context, HighScoreActivity.class);
+        startActivity(hs);
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     private void initButtons(){

@@ -22,11 +22,8 @@ public class MainActivity extends Activity {
         Constants.SCREEN_WIDTH = dm.widthPixels;
         Constants.SCREEN_HEIGHT = dm.heightPixels;
         Constants.context = getApplicationContext();
-        Constants.mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.menu_music);
+        Constants.mediaPlayer = new MediaPlayer();
 
-
-        Constants.mediaPlayer.isLooping();
-        Constants.mediaPlayer.start();
 
         Intent game = new Intent(this, MenuActivity.class);
         finish();
