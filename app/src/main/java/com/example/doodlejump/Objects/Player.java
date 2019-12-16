@@ -13,19 +13,29 @@ import com.example.doodlejump.R;
 public class Player implements GameObject {
 
     //Images
-    private final Bitmap doodleLeft     = BitmapFactory.decodeResource(
-            Constants.context.getResources(),R.drawable.left_doodle
+    private final Bitmap doodleLeft = BitmapFactory.decodeResource(
+            Constants.context.getResources(), R.drawable.left_doodle
     );
-    private final Bitmap doodleRight    = BitmapFactory.decodeResource(
-            Constants.context.getResources(),R.drawable.right_doodle
+    private final Bitmap doodleRight = BitmapFactory.decodeResource(
+            Constants.context.getResources(), R.drawable.right_doodle
     );
-    private final Bitmap doodleUp       = BitmapFactory.decodeResource(
-            Constants.context.getResources(),R.drawable.up_doodle
+    private final Bitmap doodleUp = BitmapFactory.decodeResource(
+            Constants.context.getResources(), R.drawable.up_doodle
     );
-    private final Bitmap doodleNose     = BitmapFactory.decodeResource(
-            Constants.context.getResources(),R.drawable.nose_doodle
+    private final Bitmap doodleNose = BitmapFactory.decodeResource(
+            Constants.context.getResources(), R.drawable.nose_doodle
     );
+
+    //Images
+    private final Bitmap doodleLeftJungle = BitmapFactory.decodeResource(
+            Constants.context.getResources(), R.drawable.jungle_left
+    );
+    private final Bitmap doodleRightJungle = BitmapFactory.decodeResource(
+            Constants.context.getResources(), R.drawable.jungle_right
+    );
+
     private Bitmap currentImg;
+    private int skinNumber;
 
     //ColiderBox
     private Rect playerColliderBox;
@@ -34,30 +44,46 @@ public class Player implements GameObject {
     private int doodleImgHeight;
 
     //Physic
-    private int playerSpeed  = 25;
-    private int jumpHeight   = playerSpeed* 20;
+    private int playerSpeed = 25;
+    private int jumpHeight = playerSpeed * 20;
     private int jumpProgress = 0;
 
     //States
-    private  boolean isJumping  = false;
-    private  boolean isDead     = false;
+    private boolean isJumping = false;
+    private boolean isDead = false;
 
-    public Player(Point position){
-        this.currentImg        = doodleLeft;
-        this.doodleImgWidth    = currentImg.getWidth();
-        this.doodleImgHeight   = currentImg.getHeight();
+    public Player(Point position) {
+        this.skinNumber = Constants.options.getInt("skin", 1);
+
+        if (skinNumber == 2) {
+            this.currentImg = doodleLeftJungle;
+        } else {
+            this.currentImg = doodleLeft;
+        }
+
+        this.doodleImgWidth = currentImg.getWidth();
+        this.doodleImgHeight = currentImg.getHeight();
 
         this.playerPosition = position;
         this.setColliderBox(playerPosition);
+
     }
 
-    public void moveLeft(){
-        this.currentImg = doodleLeft;
+    public void moveLeft() {
+        if (skinNumber == 2) {
+            this.currentImg = doodleLeftJungle;
+        } else {
+            this.currentImg = doodleLeft;
+        }
         this.playerPosition.x -= playerSpeed;
     }
 
-    public void moveRight(){
-        this.currentImg = doodleRight;
+    public void moveRight() {
+        if (skinNumber == 2) {
+            this.currentImg = doodleRightJungle;
+        } else {
+            this.currentImg = doodleRight;
+        }
         this.playerPosition.x += playerSpeed;
     }
 
@@ -66,58 +92,56 @@ public class Player implements GameObject {
         //Paint myPaint = new Paint();
         //myPaint.setColor(Color.BLUE);
         //canvas.drawRect(playerColliderBox,myPaint);
-        canvas.drawBitmap(currentImg,null,playerColliderBox,null);
+        canvas.drawBitmap(currentImg, null, playerColliderBox, null);
     }
 
     @Override
     public void update() {
         //Check if player not reach maxPointOfJump
-        if(this.jumpProgress >= jumpHeight){
+        if (this.jumpProgress >= jumpHeight) {
             this.isJumping = false;
             this.jumpProgress = 0;
         }
 
-        if(playerPosition.x <= 0){
-            Log.d("mensie","0");
+        if (playerPosition.x <= 0) {
+            Log.d("mensie", "0");
             playerPosition.x = Constants.SCREEN_WIDTH;
-        }
-        else if(playerPosition.x > Constants.SCREEN_WIDTH){
-            Log.d("vecsie","1");
+        } else if (playerPosition.x > Constants.SCREEN_WIDTH) {
+            Log.d("vecsie", "1");
             playerPosition.x = 0;
         }
 
-        if(this.isJumping){
+        if (this.isJumping) {
             this.playerPosition.y -= playerSpeed;
             jumpProgress += this.playerSpeed;
-        }
-        else{
+        } else {
             this.playerPosition.y += playerSpeed;
         }
         this.setColliderBox(playerPosition);
     }
 
-    private void setColliderBox(Point position){
+    private void setColliderBox(Point position) {
         this.playerColliderBox = new Rect(
-                position.x - doodleImgWidth/2,
-                position.y - doodleImgHeight/2,
-                position.x + doodleImgWidth/2,
-                position.y + doodleImgHeight/2
+                position.x - doodleImgWidth / 2,
+                position.y - doodleImgHeight / 2,
+                position.x + doodleImgWidth / 2,
+                position.y + doodleImgHeight / 2
         );
     }
 
-    public Rect getPlayerColliderBox(){
+    public Rect getPlayerColliderBox() {
         return this.playerColliderBox;
     }
 
-    public boolean checkIfIsDead(){
-        int maxDeadPosition =  Constants.SCREEN_HEIGHT + doodleImgHeight;
-        if(this.playerPosition.y > maxDeadPosition ){
+    public boolean checkIfIsDead() {
+        int maxDeadPosition = Constants.SCREEN_HEIGHT + doodleImgHeight;
+        if (this.playerPosition.y > maxDeadPosition) {
             return true;
         }
         return false;
     }
 
-    public boolean isPlayerJumping(){
+    public boolean isPlayerJumping() {
         return this.isJumping;
     }
 
@@ -125,8 +149,8 @@ public class Player implements GameObject {
         this.isJumping = jumping;
     }
 
-    public int getY(){
-        return  this.playerPosition.y;
+    public int getY() {
+        return this.playerPosition.y;
     }
 
     public void minusY(int diff) {

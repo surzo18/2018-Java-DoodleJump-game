@@ -117,9 +117,7 @@ private  MediaPlayer deadMusic;
     }
 
     public void update(){
-        if(collisionManager.isCollidePlayerEnemy(player,enemy)){
-            this.restartGame();
-        }
+
 
         enemy.update();
 
@@ -145,6 +143,10 @@ private  MediaPlayer deadMusic;
                     player.setJumping(true);
                 }
             }
+        }
+
+        if(collisionManager.isCollidePlayerEnemy(player,enemy)){
+            this.restartGame();
         }
 
         if(collisionManager.playerJumpOnEnemy(player,enemy)){
