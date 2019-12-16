@@ -1,6 +1,8 @@
 package com.example.doodlejump.View;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -8,11 +10,14 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.example.doodlejump.Activity.MenuActivity;
 import com.example.doodlejump.GameComponents.Constants;
 import com.example.doodlejump.GameComponents.MainThread;
 import com.example.doodlejump.Managers.CollisionManager;
@@ -44,6 +49,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
         thread = new MainThread(getHolder(),this);
         background = BitmapFactory.decodeResource(getResources(),R.drawable.game_background);
+
 
         setFocusable(true);
         initGame();
@@ -78,6 +84,9 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
     private void restartGame(){
         this.initGame();
+        //this.thread.setRunning(false);
+        //Intent menu = new Intent(Constants.context, MenuActivity.class);
+        //((Activity) getContext()).startActivity(menu);
     }
 
     //WhenDidAction
@@ -173,4 +182,11 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         canvas.drawBitmap(background, null,new Rect(0,0,Constants.SCREEN_WIDTH,Constants.SCREEN_HEIGHT),null);
     }
 
+    public void motionLeft(){
+        this.player.moveLeft();
+    }
+
+    public void motionRight(){
+        this.player.moveRight();
+    }
 }

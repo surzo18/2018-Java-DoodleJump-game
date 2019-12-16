@@ -72,7 +72,7 @@ public class JumperManager implements GameObject {
                 Jumper newJumper = null;
                 int x = generateX();
 
-                while (!create) {
+                //while (!create) {
                     create = true;
                     newJumper = new Jumper(new Point(x, -100));
 
@@ -88,8 +88,10 @@ public class JumperManager implements GameObject {
                     }
 
 
+                //}
+                if(create){
+                    this.addJumper(newJumper);
                 }
-                this.addJumper(newJumper);
             }
 
         }

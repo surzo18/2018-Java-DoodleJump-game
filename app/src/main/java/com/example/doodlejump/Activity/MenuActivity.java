@@ -21,7 +21,7 @@ public class MenuActivity extends Activity {
 
         setContentView(R.layout.main_activity);
 
-        initButtons();
+        //initButtons();
     }
 
     public void playGame(View view){
@@ -30,6 +30,7 @@ public class MenuActivity extends Activity {
         finish();
         startActivity(game);
     }
+
 
     @SuppressLint("ClickableViewAccessibility")
     private void initButtons(){
