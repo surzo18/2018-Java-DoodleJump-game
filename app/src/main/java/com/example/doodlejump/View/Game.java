@@ -117,7 +117,9 @@ private  MediaPlayer deadMusic;
     }
 
     public void update(){
-        //UpdatePlayer
+        if(collisionManager.isCollidePlayerEnemy(player,enemy)){
+            this.restartGame();
+        }
 
         enemy.update();
 
@@ -127,6 +129,7 @@ private  MediaPlayer deadMusic;
             int diff =  Constants.SCREEN_HEIGHT/2 - player.getY();
                jumperManager.updatePlatformsY(diff);
                player.minusY(diff);
+               enemy.updateEnemyY(diff);
                score += diff;
         }
 
@@ -142,6 +145,12 @@ private  MediaPlayer deadMusic;
                     player.setJumping(true);
                 }
             }
+        }
+
+        if(collisionManager.playerJumpOnEnemy(player,enemy)){
+            this.score += 1000;
+            enemy.setY(-800);
+            player.setJumping(true);
         }
 
         if(player.checkIfIsDead()){

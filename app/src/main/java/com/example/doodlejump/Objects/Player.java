@@ -132,4 +132,5 @@ public class Player implements GameObject {
     public void minusY(int diff) {
         this.playerPosition.y += diff;
     }
+
 }

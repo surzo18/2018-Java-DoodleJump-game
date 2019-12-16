@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.media.MediaPlayer;
 import android.util.Log;
 
 import com.example.doodlejump.GameComponents.Constants;
@@ -35,6 +36,8 @@ public class Enemy implements GameObject {
     private Point position;
     private Rect enemyBox;
     private int speed  = 10;
+    private MediaPlayer destroySound;
+    private boolean isMute = false;
 
 
     public Enemy(Point position){
@@ -48,6 +51,9 @@ public class Enemy implements GameObject {
         this.enemyCurrentImg = animationImg[currentImgNumber];
         this.enemyBox = new Rect(position.x - enemyCurrentImg.getWidth()/2,position.y - enemyCurrentImg.getHeight()/2,position.x + enemyCurrentImg.getWidth()/2, position.y + enemyCurrentImg.getHeight()/2);
 
+        this.destroySound = MediaPlayer.create(Constants.context, R.raw.destroy);
+        this.isMute = !Constants.options.getBoolean("sound",true);
+
     }
 
     @Override
@@ -57,6 +63,10 @@ public class Enemy implements GameObject {
 
     @Override
     public void update() {
+
+        if(this.position.y >= Constants.SCREEN_HEIGHT + this.enemyCurrentImg.getHeight()){
+            this.position.y = - 800;
+        }
 
         if(this.position.x >= (Constants.SCREEN_WIDTH - this.enemyCurrentImg.getWidth()/2)){
             speed = -10;
@@ -76,5 +86,20 @@ public class Enemy implements GameObject {
 
         this.enemyBox = new Rect(position.x - enemyCurrentImg.getWidth()/2,position.y - enemyCurrentImg.getHeight()/2,position.x + enemyCurrentImg.getWidth()/2, position.y + enemyCurrentImg.getHeight()/2);
 
+    }
+
+    public void updateEnemyY(int diff){
+        this.position.y += diff;
+
+    }
+    public Rect getEnemyBox(){
+        return this.enemyBox;
+    }
+
+    public void setY(int i) {
+        this.position.y = i;
+        if(!isMute){
+            this.destroySound.start();
+        }
     }
 }
