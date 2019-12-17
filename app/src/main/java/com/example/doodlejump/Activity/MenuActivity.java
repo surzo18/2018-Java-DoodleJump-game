@@ -34,7 +34,6 @@ public class MenuActivity extends Activity {
     public void playGame(View view){
         Constants.mediaPlayer.stop();
         Intent game = new Intent(Constants.context, GameActivity.class);
-        finish();
         startActivity(game);
     }
 

@@ -198,7 +198,7 @@ private  MediaPlayer deadMusic;
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         boolean retry = true;
-        while(true ){
+        while(retry ){
             try{
                 thread.setRunning(false);
                 thread.join();
