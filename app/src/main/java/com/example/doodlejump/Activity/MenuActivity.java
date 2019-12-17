@@ -72,6 +72,14 @@ public class MenuActivity extends Activity {
     @Override
     public void onResume(){
         super.onResume();
+        Constants.mediaPlayer.release();
+        Constants.mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.menu_music);
+
+        boolean isSound = Constants.options.getBoolean("sound",true);
+        if(isSound == true){
+            Constants.mediaPlayer.setLooping(true);
+            Constants.mediaPlayer.start();
+        }
         initButtons();
         Log.d("resume","test");
     }
